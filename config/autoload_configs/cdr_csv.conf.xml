@@ -1,0 +1,17 @@
+<configuration name="cdr_csv.conf" description="CDR CSV Format">
+  <settings>
+    <!-- 'cdr-csv' will always be appended to log-base -->
+    <!--<param name="log-base" value="/var/log"/>-->
+    <param name="default-template" value="example"/>
+    <!-- This is like the info app but after the call is hung up -->
+    <!--<param name="debug" value="true"/>-->
+    <param name="rotate-on-hup" value="true"/>
+    <!-- may be a b or ab -->
+    <param name="legs" value="ab"/>
+        <!-- Only log in Master.csv -->
+        <!-- <param name="master-file-only" value="true"/> -->
+  </settings>
+  <templates>
+         <template name="example">"${network_addr}","${direction}","${caller_id_name}","${caller_id_number}","${destination_number}","${context}","${start_stamp}","${answer_stamp}","${end_stamp}","${duration}","${billmsec}","${hangup_cause}","${uuid}","${bleg_uuid}","${accountcode}","${read_codec}","${write_codec}","${sip_req_uri}","${digits_dialed}","${last_arg}","${sip_profile_name}","${provider}","${sip_from_host}","${sip_to_host}","${sip_gateway_name}","${progresssec}","${progress_mediasec}"</template>
+   </templates>
+</configuration>

@@ -1,5 +1,5 @@
 FROM debian:jessie-slim
-LABEL maintainer "Praekelt.org <sre@praekelt.org>"
+LABEL maintainer "rif <radu@fericean.ro>"
 
 # Add FreeSWITCH 1.6 repo
 RUN echo 'deb http://files.freeswitch.org/repo/deb/freeswitch-1.6 jessie main' \
@@ -7,18 +7,8 @@ RUN echo 'deb http://files.freeswitch.org/repo/deb/freeswitch-1.6 jessie main' \
     && apt-key adv --keyserver pool.sks-keyservers.net --recv-key 20B06EE621AB150D40F6079FD76EDC7725E010CF
 
 # Install FreeSWITCH and necessary modules
-ENV FREESWITCH_VERSION 1.6.20~37~987c9b9-1~jessie+1
-RUN set -ex; \
-    packages=' \
-        freeswitch \
-        freeswitch-conf-vanilla \
-        freeswitch-meta-vanilla \
-        freeswitch-mod-flite \
-        freeswitch-mod-shout \
-    '; \
-    apt-get update; \
-    apt-get install -y --no-install-recommends \
-        $(for package in $packages; do echo "$package=$FREESWITCH_VERSION"; done); \
+RUN apt-get update; \
+    apt-get install -y freeswitch-meta-all; \
     rm -rf /var/lib/apt/lists/*
 
 # Copy the "vanilla" configuration files
