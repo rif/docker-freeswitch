@@ -11,18 +11,20 @@ RUN apt-get update; \
     apt-get install -y freeswitch-meta-all; \
     rm -rf /var/lib/apt/lists/*
 
-# Copy the "vanilla" configuration files
-RUN cp -a /usr/share/freeswitch/conf/vanilla/. /etc/freeswitch/
+# copy custom configs
 COPY config/ /etc/freeswitch/
 
 # Disable the example gateway and the IPv6 SIP profiles
 RUN set -ex; \
     cd /etc/freeswitch; \
-    mv directory/default/example.com.xml directory/default/example.com.xml.noload; \
-    mv sip_profiles/external-ipv6.xml sip_profiles/external-ipv6.xml.noload; \
-    mv sip_profiles/internal-ipv6.xml sip_profiles/internal-ipv6.xml.noload
+    rm -rf directory/default/example.com.xml; \
+    rm -rf sip_profiles/internal*; \
+    rm -rf sip_profiles/*ipv6*
 
 # Don't expose any ports - use host networking
+
+# Export logs and cdrs
+VOLUME /var/log/freeswitch/
 
 # Set up the entrypoint
 COPY entrypoint.sh /usr/local/bin/freeswitch-entrypoint.sh
